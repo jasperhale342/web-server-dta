@@ -1,0 +1,34 @@
+# version: "3.9"
+   
+# services:
+#   # nginx:
+#   #     build:
+#   #       context : ./nginx/
+#   #       dockerfile: Nginx.Dockerfile
+#   #     depends_on:
+#   #       - appserver
+#   #     ports:
+#   #       - "5100:5100"
+#   #     restart: always
+#   appserver:
+#     container_name: AppServer
+#     build: .
+#     ports:
+#       - "8000"
+#     command: python manage.py runserver
+
+version: "3.9"
+   
+services:
+  web:
+    image: python:3.9
+    build: Dockerfile
+    command: 'python manage.py runserver 0.0.0.0:8000'
+    # volumes:
+    #   - .:/code
+    expose:
+      - 8000
+    # environment:
+    #   - DB_NAME=postgres
+    #   - POSTGRES_USER=postgres
+    #   - POSTGRES_PASSWORD=postgres

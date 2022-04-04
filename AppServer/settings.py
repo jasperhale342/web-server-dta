@@ -96,18 +96,15 @@ WSGI_APPLICATION = 'AppServer.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-        'default': {
-            'ENGINE': 'djongo',
-            'NAME': 'dta',
-            'ENFORCE_SCHEMA': False,
-            'CLIENT': {
-                'host': env('DB_HOST_URI')
-            },
-            'OPTIONS': {
-                'timeout': 1200
-            }  
-        }
+DATABASES = {  
+    'default': {  
+        'ENGINE': 'django.db.backends.postgresql',  
+        'NAME': env('DB_NAME'),  
+        'USER': env('DB_USERNAME'),  
+        'PASSWORD': env('DB_PASSWORD'),  
+        'HOST': env('DB_HOST'),  
+        'PORT': env('DB_PORT')  
+    }  
 }
 
 

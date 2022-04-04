@@ -20,15 +20,36 @@
 version: "3.9"
    
 services:
+  nginx:
+      build:
+        context : ./nginx/
+        dockerfile: Nginx.Dockerfile
+      depends_on:
+        - web
+      ports:
+        - "5100:5100"
+      restart: always
+
   web:
     image: python:3.9
-    build: Dockerfile
-    command: 'python manage.py runserver 0.0.0.0:8000'
-    # volumes:
-    #   - .:/code
-    expose:
-      - 8000
-    # environment:
-    #   - DB_NAME=postgres
-    #   - POSTGRES_USER=postgres
-    #   - POSTGRES_PASSWORD=postgres
+    build: .
+    command: bash -c 'python manage.py runserver 0.0.0.0:8000'
+    volumes:
+      - .:/code
+    environment:
+      - DB_NAME=postgres
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db
+  db:
+    image: postgres
+    volumes:
+      - .:/var
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  
